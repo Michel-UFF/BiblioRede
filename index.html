@@ -14,7 +14,7 @@
         }
         .container {
             max-width: 800px;
-            margin: 200px auto 200px auto; /* Espaçamento de 200px * Espaçamento de 200px entre a barra de navegação e a div container */
+            margin: 200px auto 50px auto; /* Espaçamento de 200px entre a barra de navegação e a div container */
             padding: 10px;
             background-color: #DEB887; /* Fundo do container */
             border-radius: 8px;
@@ -68,6 +68,18 @@
         .etiquetas span {
             margin-right: 5px;
         }
+        .footer {
+            background-color: #800000;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            position: relative; /* Mantém o rodapé no final da página */
+            bottom: 0; /* Alinha o rodapé ao final da página */
+        }
     </style>
 </head>
 <body>
@@ -117,3 +129,9 @@
         </div>
     </div> <!-- Fechamento da div "book" -->
 </div>
+    </div>
+    <div class="footer">
+        Este é o rodapé da página.
+    </div>
+</body>
+</html>
