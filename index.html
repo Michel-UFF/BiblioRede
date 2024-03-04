@@ -14,7 +14,7 @@
         }
         .container {
             max-width: 800px;
-            margin: 200px auto 50px auto; /* Espaçamento de 200px entre a barra de navegação e a div container */
+            margin: 200px auto 200px auto; /* Espaçamento de 200px entre a barra de navegação e a div container */
             padding: 10px;
             background-color: #DEB887; /* Fundo do container */
             border-radius: 8px;
@@ -73,12 +73,6 @@
             color: white;
             padding: 10px 0;
             text-align: center;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            position: relative; /* Mantém o rodapé no final da página */
-            bottom: 0; /* Alinha o rodapé ao final da página */
         }
     </style>
 </head>
@@ -93,6 +87,7 @@
         <h1>BIBLIOTECA EMÍLIA BUSTAMANTE: PROJETO REDEBIBLIO</h1>
        <div class="section">
     <div class="section-title">LIVROS</div>
+    <div class="section">
     <div class="book">
         <a href="AAfricarecontada.html">
             <img src="Africarecontada.jpg" alt="Capa do livro A África recontada para crianças">
@@ -103,8 +98,9 @@
             <p>Páginas: 120 p.</p>
             <div class="etiquetas">Etiquetas: <span id="etiquetas-container"></span></div>
         </div>
+        </div>
     </div> <!-- Fechamento da div "book" -->
-    
+    <div class="section">
     <div class="book">
         <a href="Tristefimdepolicarpo.html">
             <img src="policarpoquaresma.jpg" alt="Capa do livro Triste fim de Policarpo Quaresma">
@@ -115,8 +111,9 @@
             <p>Páginas: 190 p.</p>
             <div class="etiquetas">Etiquetas: <span id="etiquetas-container"></span></div>
         </div>
+        </div>
     </div> <!-- Fechamento da div "book" -->
-    
+    <div class="section">
     <div class="book">
         <a href="ursula.html">
             <img src="ursulaeoutrasobras.jpg" alt="Capa do livro Úrsula e outras obras">
@@ -127,11 +124,12 @@
             <p>Páginas: 289 p.</p>
             <div class="etiquetas">Etiquetas: <span id="etiquetas-container"></span></div>
         </div>
+        </div>
     </div> <!-- Fechamento da div "book" -->
 </div>
     </div>
     <div class="footer">
-         Autor Michel Borges.
+        Biblioteca Emília Bustamante
     </div>
 </body>
 </html>
