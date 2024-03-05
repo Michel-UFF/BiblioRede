@@ -3,58 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Página Inicial - Biblioteca Emília Bustamante</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #FFEFD5;
-            color: #800000; /* Cor do texto principal */
+            background-color: #FFEFD5; /* Cor de fundo semelhante à do Google */
+            color: white; /* Cor do texto principal */
         }
         .container {
             max-width: 800px;
-            margin: 100px auto 100px auto; /* Espaçamento de 200px entre a barra de navegação e a div container */
+            margin: 100px auto; /* Centralizar na página */
             padding: 10px;
             background-color: #DEB887; /* Fundo do container */
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        h1 {
-            text-align: center;
-            border-bottom: 2px solid #800000; /* Linha inferior */
+        .logo {
+            display: block;
+            margin: 0 auto 20px; /* Centralizar a imagem */
         }
-        h2 {
+        .search-bar {
             text-align: center;
-            color: #800000; /* Cor do título */
-        }
-        .section {
             margin-bottom: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
         }
-        .section-title {
-            text-align: center;
-            color: #800000; /* Cor do título */
-            border-bottom: 2px solid #800000; /* Linha inferior */
-            padding-bottom: 5px; /* Espaçamento inferior */
-            margin-bottom: 20px; /* Espaçamento inferior */
-            font-weight: bold; /* Negrito */
+        .search-input {
+            width: 60%;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            outline: none;
+        }
+        .search-button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #800000;
+            color: #fff;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
         }
         .navbar {
-            background-color: #800000; /* Cor de fundo da barra */
+            background-color: #800000; /* Cor de fundo da barra de navegação */
             padding: 10px 0; /* Espaçamento interno */
             text-align: left; /* Alinhamento do texto */
+            color: white; /* Cor do texto na barra de navegação */
+            margin-bottom: 100px; /* Espaçamento abaixo da barra de navegação */
         }
         .navbar a {
-            color: white; /* Cor do texto */
-            text-decoration: none; /* Remover sublinhado do link */
-            margin: 0 15px; /* Espaçamento horizontal entre os links */
+            color: white; /* Cor do texto dos links */
+        }
+        .footer {
+            background-color: #800000; /* Cor de fundo do rodapé */
+            color: #fff; /* Cor do texto no rodapé */
+            padding: 10px 0;
+            text-align: center;
+            position: fixed; /* Posição fixa no rodapé */
+            bottom: 0; /* Alinhar ao final da página */
+            width: 100%; /* Largura total */
+        }
+        .section {
+            border: 1px solid #FFEFD5; /* Borda em torno da section */
+            border-radius: 8px; /* Arredondamento da borda */
+            padding: 20px; /* Espaçamento interno */
+            margin-bottom: 20px; /* Espaçamento abaixo da section */
+            color: #800000; /* Cor do texto */
+        }
+        .section-title {
+            color: #800000; /* Cor do texto */
+            margin-bottom: 10px; /* Espaçamento abaixo do título */
         }
         .book {
             display: flex;
-            align-items: center;
             margin-bottom: 20px;
         }
         .book img {
@@ -62,74 +84,125 @@
             height: auto;
             margin-right: 20px;
         }
-        .book-info {
-            flex: 1;
+        .book-info p {
+            margin: 5px 0;
         }
-        .etiquetas span {
-            margin-right: 5px;
+        .book-info p:first-child {
+            font-weight: bold;
         }
-        .footer {
-            background-color: #800000;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
+        .book-link {
+            color: inherit; /* Herda a cor do texto */
+            text-decoration: none; /* Remove sublinhado */
         }
     </style>
 </head>
 <body>
-    <!-- Barra horizontal com links -->
     <div class="navbar">
-        <a href="index.html">Home</a>
-        <a href="#">Sobre</a>
+        <a href="Procurar.html">home</a>
+        <a href="#">sobre</a>
     </div>
-
     <div class="container">
-        <h1>BIBLIOTECA EMÍLIA BUSTAMANTE: PROJETO REDEBIBLIO</h1>
-       <div class="section">
-    <div class="section-title">LIVROS</div>
-    <div class="section">
-    <div class="book">
-        <a href="AAfricarecontada.html">
-            <img src="Africarecontada.jpg" alt="Capa do livro A África recontada para crianças">
-        </a>
-        <div class="book-info">
-            <p href="AAfricarecontada.html">Título: A África recontada para crianças</p>
-            <p>Autor(a): Silva, Avani Souza</p>
-            <p>Páginas: 120 p.</p>
-            <div class="etiquetas">Etiquetas: <span id="etiquetas-container"></span></div>
+        <section class="section-bar">
+            <img class="logo" src="C:\Users\MICHEL\OneDrive\Área de Trabalho\Projeto Rede Biblio\emilia.jpg" alt="logo">
+            <div class="search-bar">
+                <form id="searchForm">
+                    <input type="text" class="search-input" name="q" placeholder="Pesquisar por autor, título ou etiquetas">
+                    <button type="button" class="search-button" onclick="filterBooks()">Pesquisar</button>
+                </form>
+            </div>
+        </section>
+        <div class="section">
+            <div class="section-title">RESULTADOS</div>
+            <div class="book-list">
+                <!-- Conteúdo dos livros será gerado dinamicamente com JavaScript -->
+            </div>
         </div>
-        </div>
-    </div> <!-- Fechamento da div "book" -->
-    <div class="section">
-    <div class="book">
-        <a href="Tristefimdepolicarpo.html">
-            <img src="policarpoquaresma.jpg" alt="Capa do livro Triste fim de Policarpo Quaresma">
-        </a>
-        <div class="book-info">
-            <p href="Tristefimdepolicarpo.html">Título: O triste fim de Policarpo Quaresma</p>
-            <p>Autor(a): Barreto, Lima</p>
-            <p>Páginas: 190 p.</p>
-            <div class="etiquetas">Etiquetas: <span id="etiquetas-container"></span></div>
-        </div>
-        </div>
-    </div> <!-- Fechamento da div "book" -->
-    <div class="section">
-    <div class="book">
-        <a href="ursula.html">
-            <img src="ursulaeoutrasobras.jpg" alt="Capa do livro Úrsula e outras obras">
-        </a>
-        <div class="book-info">
-            <p href="ursula.html">Título: Úrsula e outras obras</p>
-            <p>Autor(a): Reis, Maria Firmina dos</p>
-            <p>Páginas: 289 p.</p>
-            <div class="etiquetas">Etiquetas: <span id="etiquetas-container"></span></div>
-        </div>
-        </div>
-    </div> <!-- Fechamento da div "book" -->
-</div>
     </div>
     <div class="footer">
         Biblioteca Emília Bustamante
     </div>
+
+    <script>
+        const books = [
+            {
+                titulo: "A África recontada para crianças",
+                autor: "Silva, Avani Souza",
+                etiquetas: ["África", "Crianças", "Contos"],
+                imagem: "Africarecontada.jpg",
+                link: "AAfricarecontada.html"
+            },
+            {
+                titulo: "O triste fim de Policarpo Quaresma",
+                autor: "Barreto, Lima",
+                etiquetas: ["Brasil", "Literatura", "Ficção"],
+                imagem: "policarpoquaresma.jpg",
+                link: "Tristefimdepolicarpo.html"
+            },
+            {
+                titulo: "Úrsula e outras obras",
+                autor: "Reis, Maria Firmina dos",
+                etiquetas: ["Romance", "Literatura Brasileira", "Feminismo"],
+                imagem: "ursulaeoutrasobras.jpg",
+                link: "ursula.html"
+            }
+            // Adicione mais livros conforme necessário
+        ];
+
+        function generateBookList(results) {
+            const bookListContainer = document.querySelector('.book-list');
+            bookListContainer.innerHTML = '';
+
+            results.forEach(book => {
+                const bookSection = document.createElement('section');
+                bookSection.classList.add('section');
+
+                const bookDiv = document.createElement('div');
+                bookDiv.classList.add('book');
+
+                const bookLink = document.createElement('a');
+                bookLink.href = book.link;
+                bookLink.classList.add('book-link');
+
+                const bookImg = document.createElement('img');
+                bookImg.src = book.imagem;
+                bookImg.alt = `Capa do livro ${book.titulo}`;
+
+                const bookInfoDiv = document.createElement('div');
+                bookInfoDiv.classList.add('book-info');
+
+                const titlePara = document.createElement('p');
+                titlePara.textContent = `Título: ${book.titulo}`;
+
+                const authorPara = document.createElement('p');
+                authorPara.textContent = `Autor(a): ${book.autor}`;
+
+                const tagsPara = document.createElement('p');
+                tagsPara.textContent = `Etiquetas: ${book.etiquetas.join(', ')}`;
+
+                bookInfoDiv.appendChild(titlePara);
+                bookInfoDiv.appendChild(authorPara);
+                bookInfoDiv.appendChild(tagsPara);
+
+                bookLink.appendChild(bookImg);
+                bookDiv.appendChild(bookLink);
+                bookDiv.appendChild(bookInfoDiv);
+                bookSection.appendChild(bookDiv);
+                bookListContainer.appendChild(bookSection);
+            });
+        }
+
+        function filterBooks() {
+            const query = document.querySelector('.search-input').value.toLowerCase();
+            const results = books.filter(book => {
+                return (
+                    book.titulo.toLowerCase().includes(query) ||
+                    book.autor.toLowerCase().includes(query) ||
+                    book.etiquetas.some(tag => tag.toLowerCase().includes(query))
+                );
+            });
+            generateBookList(results);
+        }
+    </script>
+
 </body>
 </html>
