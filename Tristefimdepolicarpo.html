@@ -31,7 +31,7 @@
         .section {
             margin-bottom: 20px;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #FFEFD5;
             border-radius: 4px;
         }
         .section-title {
@@ -64,7 +64,7 @@
             width: 100%; /* Largura total */
             padding: 8px;
             margin-bottom: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #FFEFD5;
             border-radius: 4px;
             box-sizing: border-box;
         }
@@ -82,7 +82,7 @@
         .impressao {
             margin-bottom: 20px;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #FFEFD5;
             border-radius: 4px;
         }
         /* Estilos para a barra horizontal */
@@ -131,14 +131,13 @@
 
         <div class="section">
             <div class="section-title">COMPARTILHAMENTO</div>
-            <form action="https://api.sheetmonkey.io/form/uZw22NLoU9f44cJMwQXyzK" method="post">
+            <form id="formImpressao" style="text-align: right;" method="POST" action="processar_formulario.php">
                 <label for="Leitor">Leitor:</label>
-                <input type="text" id="autor" name="Leitor" required><br>
+                <input type="text" id="autor" name="autor" required><br>
                 <label for="etiquetas">Etiqueta:</label>
-                <input type="text" id="etiquetas" name="Etiquetas">
+                <input type="text" id="etiquetas" name="etiquetas">
                 <label for="resumo">Comentário:</label>
-                <textarea id="resumo" name="Comentário" rows="4" required></textarea><br>
-                <input type="hidden" name="Created" value="x-sheetmonkey-current-date-time" />
+                <textarea id="resumo" name="resumo" rows="4" required></textarea><br>
                 <button type="submit">Adicionar</button>
             </form>
         </div>
@@ -151,7 +150,7 @@
         </div>
     </div>
 
-  <script>
+    <script>
         const formImpressao = document.getElementById('formImpressao');
         const impressoesContainer = document.getElementById('impressoes');
         const etiquetasContainer = document.getElementById('etiquetas-container'); // Container das etiquetas
