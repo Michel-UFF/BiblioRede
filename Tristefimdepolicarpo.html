@@ -157,9 +157,6 @@
     const impressoesContainer = document.getElementById('impressoes');
     const etiquetasContainer = document.getElementById('etiquetas-container');
 
-    // Array para armazenar as etiquetas
-    let etiquetasArray = [];
-
     // Função para adicionar comentário à planilha e atualizar a página
     function addCommentAndUpdatePage(autor, resumo, etiquetas, data) {
         // Adicionar o comentário à planilha
@@ -171,7 +168,8 @@
             body: JSON.stringify({
                 leitor: autor,
                 etiquetas: etiquetas,
-                comentario: resumo
+                comentario: resumo,
+                data: data
             })
         })
         .then(response => response.json())
@@ -186,12 +184,8 @@
                 <p><strong>Data:</strong> ${data}</p>
             `;
             impressoesContainer.appendChild(impressaoDiv);
-            etiquetasArray.push(etiquetas);
-            etiquetasArray.sort((a, b) => a.localeCompare(b, 'pt', { sensitivity: 'base' }));
-            etiquetasContainer.innerHTML = "Etiquetas: ";
-            etiquetasArray.forEach(etiqueta => {
-                etiquetasContainer.innerHTML += `<span>${etiqueta}</span>, `;
-            });
+            // Atualizar as etiquetas na página
+            updateTags(etiquetas);
         })
         .catch(error => console.error('Erro ao adicionar o comentário:', error));
     }
@@ -205,21 +199,25 @@
                     const impressaoDiv = document.createElement('div');
                     impressaoDiv.classList.add('impressao');
                     impressaoDiv.innerHTML = `
-                        <p><strong>Leitor:</strong> ${comment.autor}</p>
-                        <p><strong>Comentário:</strong> ${comment.resumo}</p>
+                        <p><strong>Leitor:</strong> ${comment.leitor}</p>
+                        <p><strong>Comentário:</strong> ${comment.comentario}</p>
                         <p><strong>Etiqueta:</strong> ${comment.etiquetas}</p>
                         <p><strong>Data:</strong> ${comment.data}</p>
                     `;
                     impressoesContainer.appendChild(impressaoDiv);
-                    etiquetasArray.push(comment.etiquetas);
-                });
-                etiquetasArray.sort((a, b) => a.localeCompare(b, 'pt', { sensitivity: 'base' }));
-                etiquetasContainer.innerHTML = "Etiquetas: ";
-                etiquetasArray.forEach(etiqueta => {
-                    etiquetasContainer.innerHTML += `<span>${etiqueta}</span>, `;
+                    // Atualizar as etiquetas na página
+                    updateTags(comment.etiquetas);
                 });
             })
             .catch(error => console.error('Erro ao carregar os dados da planilha:', error));
+    }
+
+    // Função para atualizar as etiquetas na página
+    function updateTags(etiquetas) {
+        const etiquetasArray = etiquetas.split(',');
+        etiquetasArray.forEach(etiqueta => {
+            etiquetasContainer.innerHTML += `<span>${etiqueta.trim()}</span>, `;
+        });
     }
 
     // Carregar comentários da planilha ao carregar a página
@@ -237,12 +235,6 @@
         const etiquetas = document.getElementById('etiquetas').value;
         const data = new Date().toLocaleString();
 
-        // Verificar se a etiqueta já foi adicionada anteriormente
-        if (etiquetasArray.includes(etiquetas)) {
-            alert("Etiqueta já foi adicionada anteriormente. Por favor, insira uma nova etiqueta.");
-            return;
-        }
-
         // Adicionar o comentário à planilha e atualizar a página
         addCommentAndUpdatePage(autor, resumo, etiquetas, data);
 
@@ -250,7 +242,6 @@
         formImpressao.reset();
     });
 </script>
-
 
     <!-- Rodapé -->
     <div class="footer">
