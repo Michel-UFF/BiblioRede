@@ -151,7 +151,7 @@
         </div>
     </div>
 
-<script>
+  <script>
         const formImpressao = document.getElementById('formImpressao');
         const impressoesContainer = document.getElementById('impressoes');
         const etiquetasContainer = document.getElementById('etiquetas-container'); // Container das etiquetas
@@ -160,7 +160,7 @@
         formImpressao.addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const leitor = document.getElementById('leitor').value;
+            const autor = document.getElementById('autor').value;
             const resumo = document.getElementById('resumo').value;
             const etiquetas = document.getElementById('etiquetas').value;
             const data = new Date().toLocaleString();
@@ -174,7 +174,7 @@
             const impressaoDiv = document.createElement('div');
             impressaoDiv.classList.add('impressao');
             impressaoDiv.innerHTML = `
-                <p><strong>Leitor:</strong> ${leitor}</p>
+                <p><strong>Leitor:</strong> ${autor}</p>
                 <p><strong>Comentário:</strong> ${resumo}</p>
                 <p><strong>Etiqueta:</strong> ${etiquetas}</p>
                 <p><strong>Data:</strong> ${data}</p>
