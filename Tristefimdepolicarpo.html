@@ -152,11 +152,6 @@
     </div>
 
 <script>
-    // Constantes para elementos do formulário
-    const formImpressao = document.getElementById('formImpressao');
-    const impressoesContainer = document.getElementById('impressoes');
-    const etiquetasContainer = document.getElementById('etiquetas-container');
-
     // Função para adicionar comentário à planilha e atualizar a página
     function addCommentAndUpdatePage(autor, resumo, etiquetas, data) {
         // Adicionar o comentário à planilha
@@ -183,7 +178,7 @@
                 <p><strong>Etiqueta:</strong> ${etiquetas}</p>
                 <p><strong>Data:</strong> ${data}</p>
             `;
-            impressoesContainer.appendChild(impressaoDiv);
+            document.getElementById('impressoes').appendChild(impressaoDiv);
             // Atualizar as etiquetas na página
             updateTags(etiquetas);
         })
@@ -204,7 +199,7 @@
                         <p><strong>Etiqueta:</strong> ${comment.etiquetas}</p>
                         <p><strong>Data:</strong> ${comment.data}</p>
                     `;
-                    impressoesContainer.appendChild(impressaoDiv);
+                    document.getElementById('impressoes').appendChild(impressaoDiv);
                     // Atualizar as etiquetas na página
                     updateTags(comment.etiquetas);
                 });
@@ -216,7 +211,7 @@
     function updateTags(etiquetas) {
         const etiquetasArray = etiquetas.split(',');
         etiquetasArray.forEach(etiqueta => {
-            etiquetasContainer.innerHTML += `<span>${etiqueta.trim()}</span>, `;
+            document.getElementById('etiquetas-container').innerHTML += `<span>${etiqueta.trim()}</span>, `;
         });
     }
 
@@ -226,7 +221,7 @@
     });
 
     // Adicionar evento de envio do formulário
-    formImpressao.addEventListener('submit', function(event) {
+    document.getElementById('formImpressao').addEventListener('submit', function(event) {
         event.preventDefault();
 
         // Obter valores dos campos do formulário
@@ -239,9 +234,13 @@
         addCommentAndUpdatePage(autor, resumo, etiquetas, data);
 
         // Limpar o formulário após o envio
-        formImpressao.reset();
+        document.getElementById('formImpressao').reset();
+
+        // Modificar a URL sem recarregar a página
+        window.history.pushState({}, document.title, window.location.pathname);
     });
 </script>
+
 
     <!-- Rodapé -->
     <div class="footer">
