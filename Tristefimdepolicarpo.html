@@ -152,67 +152,96 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Recuperar os dados da planilha do Sheetmonkey
-            fetch('https://api.sheetmonkey.io/form/uZw22NLoU9f44cJMwQXyzK')
-                .then(response => response.json())
-                .then(data => {
-                    // Extrair os dados do JSON retornado pela API
-                    const { leitor, etiquetas, comentario } = data;
+    document.addEventListener('DOMContentLoaded', function () {
+        // Recuperar os dados da planilha do Sheetmonkey
+        fetch('https://api.sheetmonkey.io/form/uZw22NLoU9f44cJMwQXyzK')
+            .then(response => response.json())
+            .then(data => {
+                // Extrair os dados do JSON retornado pela API
+                const { leitor, etiquetas, comentario } = data;
 
-                    // Preencher os campos do formulário com os dados da planilha
-                    document.getElementById('autor').value = leitor || '';
-                    document.getElementById('etiquetas').value = etiquetas || '';
-                    document.getElementById('resumo').value = comentario || '';
-                })
-                .catch(error => console.error('Erro ao carregar os dados da planilha:', error));
-        });
+                // Preencher os campos do formulário com os dados da planilha
+                document.getElementById('autor').value = leitor || '';
+                document.getElementById('etiquetas').value = etiquetas || '';
+                document.getElementById('resumo').value = comentario || '';
+            })
+            .catch(error => console.error('Erro ao carregar os dados da planilha:', error));
+    });
 
-        // Script de adição de dados
-        const formImpressao = document.getElementById('formImpressao');
-        const impressoesContainer = document.getElementById('impressoes');
-        const etiquetasContainer = document.getElementById('etiquetas-container');
-        let etiquetasArray = [];
+    // Script de adição de dados
+    const formImpressao = document.getElementById('formImpressao');
+    const impressoesContainer = document.getElementById('impressoes');
+    const etiquetasContainer = document.getElementById('etiquetas-container');
+    let etiquetasArray = [];
 
-        formImpressao.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const autor = document.getElementById('autor').value;
-            const resumo = document.getElementById('resumo').value;
-            const etiquetas = document.getElementById('etiquetas').value;
-            const data = new Date().toLocaleString();
-
-            if (etiquetasArray.includes(etiquetas)) {
-                alert("Etiqueta já foi adicionada anteriormente. Por favor, insira uma nova etiqueta.");
-                return;
-            }
-
+    // Função para carregar os comentários armazenados localmente e exibi-los na página
+    function loadLocalComments() {
+        const storedComments = JSON.parse(localStorage.getItem('comentarios')) || [];
+        storedComments.forEach(comment => {
             const impressaoDiv = document.createElement('div');
             impressaoDiv.classList.add('impressao');
             impressaoDiv.innerHTML = `
-                <p><strong>Leitor:</strong> ${autor}</p>
-                <p><strong>Comentário:</strong> ${resumo}</p>
-                <p><strong>Etiqueta:</strong> ${etiquetas}</p>
-                <p><strong>Data:</strong> ${data}</p>
+                <p><strong>Leitor:</strong> ${comment.autor}</p>
+                <p><strong>Comentário:</strong> ${comment.resumo}</p>
+                <p><strong>Etiqueta:</strong> ${comment.etiquetas}</p>
+                <p><strong>Data:</strong> ${comment.data}</p>
             `;
-            
             impressoesContainer.appendChild(impressaoDiv);
-
-            etiquetasArray.push(etiquetas);
-            etiquetasArray.sort((a, b) => a.localeCompare(b, 'pt', { sensitivity: 'base' }));
-
-            etiquetasContainer.innerHTML = "Etiquetas: ";
-            etiquetasArray.forEach(etiqueta => {
-                etiquetasContainer.innerHTML += `<span>${etiqueta}</span>, `;
-            });
-
-            const etiquetasParaHome = JSON.parse(localStorage.getItem('etiquetas')) || {};
-            etiquetasParaHome[''] = etiquetasArray;
-            localStorage.setItem('etiquetas', JSON.stringify(etiquetasParaHome));
-
-            formImpressao.reset();
+            etiquetasArray.push(comment.etiquetas);
         });
-    </script>
+        etiquetasArray.sort((a, b) => a.localeCompare(b, 'pt', { sensitivity: 'base' }));
+        etiquetasContainer.innerHTML = "Etiquetas: ";
+        etiquetasArray.forEach(etiqueta => {
+            etiquetasContainer.innerHTML += `<span>${etiqueta}</span>, `;
+        });
+    }
+
+    // Carregar comentários locais ao carregar a página
+    document.addEventListener('DOMContentLoaded', function () {
+        loadLocalComments();
+    });
+
+    formImpressao.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const autor = document.getElementById('autor').value;
+        const resumo = document.getElementById('resumo').value;
+        const etiquetas = document.getElementById('etiquetas').value;
+        const data = new Date().toLocaleString();
+
+        if (etiquetasArray.includes(etiquetas)) {
+            alert("Etiqueta já foi adicionada anteriormente. Por favor, insira uma nova etiqueta.");
+            return;
+        }
+
+        const impressaoDiv = document.createElement('div');
+        impressaoDiv.classList.add('impressao');
+        impressaoDiv.innerHTML = `
+            <p><strong>Leitor:</strong> ${autor}</p>
+            <p><strong>Comentário:</strong> ${resumo}</p>
+            <p><strong>Etiqueta:</strong> ${etiquetas}</p>
+            <p><strong>Data:</strong> ${data}</p>
+        `;
+        
+        impressoesContainer.appendChild(impressaoDiv);
+
+        // Adicionar comentário ao armazenamento local
+        const storedComments = JSON.parse(localStorage.getItem('comentarios')) || [];
+        storedComments.push({autor, resumo, etiquetas, data});
+        localStorage.setItem('comentarios', JSON.stringify(storedComments));
+
+        etiquetasArray.push(etiquetas);
+        etiquetasArray.sort((a, b) => a.localeCompare(b, 'pt', { sensitivity: 'base' }));
+
+        etiquetasContainer.innerHTML = "Etiquetas: ";
+        etiquetasArray.forEach(etiqueta => {
+            etiquetasContainer.innerHTML += `<span>${etiqueta}</span>, `;
+        });
+
+        formImpressao.reset();
+    });
+</script>
+
 
     <!-- Rodapé -->
     <div class="footer">
