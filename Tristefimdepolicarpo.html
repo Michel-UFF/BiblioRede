@@ -152,31 +152,55 @@
     </div>
 
     <script>
-    // Função para carregar os comentários da planilha e exibi-los na página
-    function loadSheetComments() {
-        fetch('https://api.sheetmonkey.io/form/uZw22NLoU9f44cJMwQXyzK')
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(comment => {
-                    const impressaoDiv = document.createElement('div');
-                    impressaoDiv.classList.add('impressao');
-                    impressaoDiv.innerHTML = `
-                        <p><strong>Leitor:</strong> ${comment.autor}</p>
-                        <p><strong>Comentário:</strong> ${comment.resumo}</p>
-                        <p><strong>Etiqueta:</strong> ${comment.etiquetas}</p>
-                        <p><strong>Data:</strong> ${comment.data}</p>
-                    `;
-                    impressoesContainer.appendChild(impressaoDiv);
-                    etiquetasArray.push(comment.etiquetas);
-                });
-                etiquetasArray.sort((a, b) => a.localeCompare(b, 'pt', { sensitivity: 'base' }));
-                etiquetasContainer.innerHTML = "Etiquetas: ";
-                etiquetasArray.forEach(etiqueta => {
-                    etiquetasContainer.innerHTML += `<span>${etiqueta}</span>, `;
-                });
-            })
-            .catch(error => console.error('Erro ao carregar os dados da planilha:', error));
-    }
+     <script>
+        const formImpressao = document.getElementById('formImpressao');
+        const impressoesContainer = document.getElementById('impressoes');
+        const etiquetasContainer = document.getElementById('etiquetas-container'); // Container das etiquetas
+        let etiquetasArray = []; // Array para armazenar as etiquetas
+
+        formImpressao.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const leitor = document.getElementById('leitor').value;
+            const resumo = document.getElementById('resumo').value;
+            const etiquetas = document.getElementById('etiquetas').value;
+            const data = new Date().toLocaleString();
+
+            // Verificando se a etiqueta já foi adicionada anteriormente
+            if (etiquetasArray.includes(etiquetas)) {
+                alert("Etiqueta já foi adicionada anteriormente. Por favor, insira uma nova etiqueta.");
+                return;
+            }
+
+            const impressaoDiv = document.createElement('div');
+            impressaoDiv.classList.add('impressao');
+            impressaoDiv.innerHTML = `
+                <p><strong>Leitor:</strong> ${leitor}</p>
+                <p><strong>Comentário:</strong> ${resumo}</p>
+                <p><strong>Etiqueta:</strong> ${etiquetas}</p>
+                <p><strong>Data:</strong> ${data}</p>
+            `;
+            
+            impressoesContainer.appendChild(impressaoDiv);
+
+            // Adicionando etiquetas ao array
+            etiquetasArray.push(etiquetas);
+            // Ordenando o array de etiquetas em ordem alfabética (ignorando acentos)
+            etiquetasArray.sort((a, b) => a.localeCompare(b, 'pt', { sensitivity: 'base' }));
+
+            // Atualizando as etiquetas no contêiner
+            etiquetasContainer.innerHTML = "Etiquetas: ";
+            etiquetasArray.forEach(etiqueta => {
+                etiquetasContainer.innerHTML += `<span>${etiqueta}</span>, `;
+            });
+
+            // Enviando etiquetas para a página Home
+            const etiquetasParaHome = JSON.parse(localStorage.getItem('etiquetas')) || {};
+            etiquetasParaHome[''] = etiquetasArray;
+            localStorage.setItem('etiquetas', JSON.stringify(etiquetasParaHome));
+
+            formImpressao.reset();
+        });
 
     // Função para adicionar comentário à planilha e atualizar a página
     function addCommentAndUpdatePage(autor, resumo, etiquetas, data) {
