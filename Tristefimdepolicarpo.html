@@ -131,13 +131,14 @@
 
         <div class="section">
             <div class="section-title">COMPARTILHAMENTO</div>
-            <form id="formImpressao" style="text-align: right;" method="POST" action="processar_formulario.php">
+            <form action="https://api.sheetmonkey.io/form/uZw22NLoU9f44cJMwQXyzK" method="post">
                 <label for="Leitor">Leitor:</label>
-                <input type="text" id="autor" name="autor" required><br>
+                <input type="text" id="autor" name="Leitor" required><br>
                 <label for="etiquetas">Etiqueta:</label>
-                <input type="text" id="etiquetas" name="etiquetas">
+                <input type="text" id="etiquetas" name="Etiquetas">
                 <label for="resumo">Comentário:</label>
-                <textarea id="resumo" name="resumo" rows="4" required></textarea><br>
+                <textarea id="resumo" name="Comentário" rows="4" required></textarea><br>
+                <input type="hidden" name="Created" value="x-sheetmonkey-current-date-time" />
                 <button type="submit">Adicionar</button>
             </form>
         </div>
@@ -212,5 +213,10 @@
             formImpressao.reset();
         });
     </script>
+
+    <!-- Rodapé -->
+    <div class="footer">
+        Biblioteca Emília Bustamante.
+    </div>
 </body>
 </html>
