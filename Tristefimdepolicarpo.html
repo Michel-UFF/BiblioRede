@@ -151,10 +151,27 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Recuperar os dados da planilha do Sheetmonkey
+            fetch('https://api.sheetmonkey.io/form/uZw22NLoU9f44cJMwQXyzK')
+                .then(response => response.json())
+                .then(data => {
+                    // Extrair os dados do JSON retornado pela API
+                    const { leitor, etiquetas, comentario } = data;
+
+                    // Preencher os campos do formulário com os dados da planilha
+                    document.getElementById('autor').value = leitor || '';
+                    document.getElementById('etiquetas').value = etiquetas || '';
+                    document.getElementById('resumo').value = comentario || '';
+                })
+                .catch(error => console.error('Erro ao carregar os dados da planilha:', error));
+        });
+
+        // Script de adição de dados
         const formImpressao = document.getElementById('formImpressao');
         const impressoesContainer = document.getElementById('impressoes');
-        const etiquetasContainer = document.getElementById('etiquetas-container'); // Container das etiquetas
-        let etiquetasArray = []; // Array para armazenar as etiquetas
+        const etiquetasContainer = document.getElementById('etiquetas-container');
+        let etiquetasArray = [];
 
         formImpressao.addEventListener('submit', function(event) {
             event.preventDefault();
@@ -164,7 +181,6 @@
             const etiquetas = document.getElementById('etiquetas').value;
             const data = new Date().toLocaleString();
 
-            // Verificando se a etiqueta já foi adicionada anteriormente
             if (etiquetasArray.includes(etiquetas)) {
                 alert("Etiqueta já foi adicionada anteriormente. Por favor, insira uma nova etiqueta.");
                 return;
@@ -181,18 +197,14 @@
             
             impressoesContainer.appendChild(impressaoDiv);
 
-            // Adicionando etiquetas ao array
             etiquetasArray.push(etiquetas);
-            // Ordenando o array de etiquetas em ordem alfabética (ignorando acentos)
             etiquetasArray.sort((a, b) => a.localeCompare(b, 'pt', { sensitivity: 'base' }));
 
-            // Atualizando as etiquetas no contêiner
             etiquetasContainer.innerHTML = "Etiquetas: ";
             etiquetasArray.forEach(etiqueta => {
                 etiquetasContainer.innerHTML += `<span>${etiqueta}</span>, `;
             });
 
-            // Enviando etiquetas para a página Home
             const etiquetasParaHome = JSON.parse(localStorage.getItem('etiquetas')) || {};
             etiquetasParaHome[''] = etiquetasArray;
             localStorage.setItem('etiquetas', JSON.stringify(etiquetasParaHome));
@@ -200,10 +212,5 @@
             formImpressao.reset();
         });
     </script>
-
-    <!-- Rodapé -->
-    <div class="footer">
-        Biblioteca Emília Bustamante.
-    </div>
 </body>
 </html>
